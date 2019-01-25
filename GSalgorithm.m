@@ -33,7 +33,8 @@ while (iteration < TotalIterations)
     
     ApproxSourceAmp = ifft2(fftshift(NewTarget));
     
-    hologram = quantiz(angle(ApproxSourceAmp), partition, codebook); %doesn't work bc AppoxSourceAmp is not real
+    %hologram = quantiz(angle(ApproxSourceAmp), partition, codebook); %doesn't work bc AppoxSourceAmp is not real
+    hologram = round(angle(ApproxSourceAmp)*256/(2*pi))/(256/(2*pi));
     
     hologramInput = (InputField.*exp(1i*hologram));
     
