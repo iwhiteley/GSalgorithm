@@ -13,21 +13,37 @@
 
 % figure(1)
 % imagesc(abs(targetImage))
+targetImage = complex(zeros(ImageSize));
+targetImage(20:50, 20:50) = 1+1i;
+targetImage = (targetImage - mean(targetImage(:)))./std(targetImage(:));
+
+figure(1)
+imagesc(abs(targetImage))
 
 iteration = 0;
 TotalIterations = 100;
 Performance = zeros(1,TotalIterations);
 
+
 ImageSize = [128, 128];
 SLM = round(rand(ImageSize)*255)*2*pi/255 - pi; 
 
-function [ApproxTargetI] = GSalgorithm(hologramInputSLM(SLM, Imagesize))
 
 
+function [hologramInput] = hologramInputSLM(SLM,ImageSize)
+
+InputField = complex(ones(ImageSize)); % Set up a uniform electric field with a phase of zero hitting the SLM.
+
+hologramInput = (InputField.*exp(1i*SLM)); % Add the phase to the SLM
+
+
+
+
+function [ApproxTargetI] = x(hologramInputSLM);
 
 while (iteration < TotalIterations) 
    
-    TargetPl = fftshift(fft2(hologramInputSLM));   
+    TargetPl = fftshift(fft2(hologramInput));   
     
     ApproxTargetI = abs(TargetPl).^2;
     
@@ -53,5 +69,7 @@ imagesc(ApproxTargetI)
 
 figure(3)
 plot(Performance)
+
 end
 
+end
