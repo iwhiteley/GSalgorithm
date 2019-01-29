@@ -7,23 +7,27 @@
 % hologramInput = (InputField.*exp(1i*SLM)); % Add the phase to the SLM
 % 
 %create target shape
-targetImage = complex(zeros(ImageSize));
-targetImage(20:50, 20:50) = 1+1i;
-targetImage = (targetImage - mean(targetImage(:)))./std(targetImage(:));
+% targetImage = complex(zeros(ImageSize));
+% targetImage(20:50, 20:50) = 1+1i;
+% targetImage = (targetImage - mean(targetImage(:)))./std(targetImage(:));
 
-figure(1)
-imagesc(abs(targetImage))
-
-function x = GSalgorithm(hologramInputSLM)
+% figure(1)
+% imagesc(abs(targetImage))
 
 iteration = 0;
 TotalIterations = 100;
 Performance = zeros(1,TotalIterations);
 
+ImageSize = [128, 128];
+SLM = round(rand(ImageSize)*255)*2*pi/255 - pi; 
+
+function [ApproxTargetI] = GSalgorithm(hologramInputSLM(SLM, Imagesize))
+
+
 
 while (iteration < TotalIterations) 
    
-    TargetPl = fftshift(fft2(hologramInput));   
+    TargetPl = fftshift(fft2(hologramInputSLM));   
     
     ApproxTargetI = abs(TargetPl).^2;
     
@@ -42,6 +46,7 @@ while (iteration < TotalIterations)
     ApproxTargetINorm = (ApproxTargetI - mean(ApproxTargetI(:)))./std(ApproxTargetI(:));
     Performance(iteration) = sum(sum(abs(ApproxTargetINorm(:) - targetImage(:))));
 end
+
 
 figure(2)
 imagesc(ApproxTargetI)
