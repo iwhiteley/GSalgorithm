@@ -9,15 +9,19 @@ figure(1)
 imagesc(abs(targetImage))
 
 % iteration = 0;
-% TotalIterations = 100;
+TotalIterations = 100;
 % Performance = zeros(1,TotalIterations);
 
 InputField = complex(ones(ImageSize)); % Set up a uniform electric field with a phase of zero hitting the SLM.
 SLM = round(rand(ImageSize)*255)*2*pi/255 - pi; 
+DMD= randi([0,1],ImageSize)*2*pi - pi;
 
-hologramInput = hologramInputSLM(SLM, InputField);
+% hologramInputIn = hologramInputSLM(SLM, InputField);
+% hologramInputIn = hologramInputDMD(DMD,InputField);
 
-[ApproxTargetI,Performance] = GSalgorithm(hologramInput,InputField, TotalIterations, targetImage);
+hologramInputIn= device(hologramInputSLM,hologramInputDMD);
+
+[ApproxTargetI,Performance] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage);
 
 
 figure(2)
