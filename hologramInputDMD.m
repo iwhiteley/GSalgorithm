@@ -1,6 +1,6 @@
 %DMD
-function [hologramInput] = hologramInputDMD(ImageSize,InputField)
+function hologramInputIn = hologramInputDMD(DMD,InputField)
 
-DMD= randi([0,1],ImageSize)*2*pi - pi;
-hologramInput = (InputField.*exp(1i*DMD));
+
+hologramInputIn = (InputField.*exp(1i*DMD));
 end
