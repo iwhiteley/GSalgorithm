@@ -1,10 +1,13 @@
-function hologramInputIn = device(hologramInputSLM,hologramInputDMD)
+function hologramInput = device(hologramInputIn)
 
-if "SLM"
-    hologramInputIn = hologramInputSLM;
-elseif "DMD"
-    hologramInputIn = hologramInputDMD;
-   
+if hologramInputIn == hologramInputSLM(SLM,InputField)
+    %call holograminputSLM function
+    %deviceSelect = 
+    hologramInput = hologramInputSLM(SLM,InputField);
+    
+elseif hologramInputIn == hologramInputDMD(DMD,InputField)
+    %call holograminputDMD function
+    hologramInput = hologramInputDMD(DMD,InputField);
 end 
 
 end
