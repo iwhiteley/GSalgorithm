@@ -18,10 +18,10 @@ DMD= randi([0,1],ImageSize)*2*pi - pi;
 
 % hologramInputIn = hologramInputSLM(SLM, InputField);
 % hologramInputIn = hologramInputDMD(DMD,InputField);
+hologramInputIn = hologramInputSLM(SLM,InputField);
+hologramInput= device(hologramInputIn);
 
-hologramInputIn= device(hologramInputSLM,hologramInputDMD);
-
-[ApproxTargetI,Performance] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage);
+[ApproxTargetI,Performance] = GSalgorithm(hologramInput,InputField, TotalIterations, targetImage);
 
 
 figure(2)
