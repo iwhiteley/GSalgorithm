@@ -3,8 +3,11 @@
 ImageSize = [128, 128];
 targetImage = targetImageFunc(ImageSize);
 
-figure(1)
-imagesc(abs(targetImage))
+figure;
+%figure(1)
+subplot(2,2,1);
+imagesc(abs(targetImage));
+title('targetImage')
 
 TotalIterations = 100;
 
@@ -13,15 +16,19 @@ SLM = round(rand(ImageSize)*255)*2*pi/255 - pi;
 DMD= randi([0,1],ImageSize)*2*pi - pi;
 
 
-% hologramInputIn = hologramInputDMD(DMD,InputField);
-hologramInputIn = hologramInputSLM(SLM,InputField);
+hologramInputIn = hologramInputDMD(DMD,InputField);
+%hologramInputIn = hologramInputSLM(SLM,InputField);
 %hologramInput= device(hologramInputIn);
 
 [ApproxTargetI,Performance] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage);
 
 
-figure(2)
+%figure(2)
+subplot(2,2,2);
 imagesc(ApproxTargetI)
+title('Approx Target')
 
-figure(3)
+%figure(3)
+subplot(2,2,[3,4])
 plot(Performance)
+title('Performance')
