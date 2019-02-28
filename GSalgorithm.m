@@ -16,8 +16,14 @@ while (iteration < TotalIterations)
     ApproxSourceAmp = ifft2(fftshift(NewTarget));
     
     %hologram = round(angle(ApproxSourceAmp)*256/(2*pi))/(256/(2*pi)); %for SLM
-    meanApproxSourceAmp = mean(mean(ApproxSourceAmp));
-    hologram = ApproxSourceAmp()>meanApproxSourceAmp; %for DMD
+    
+    %meanApproxSourceAmp = mean(mean(ApproxSourceAmp)); %for DMD
+    %hologram = ApproxSourceAmp()>meanApproxSourceAmp; %for DMD
+    
+    ApproxSourceAmpReal = real(ApproxSourceAmp);
+    ApproxSourceAmpImag = imag(ApproxSourceAmp);
+    hologram = imbinarize(ApproxSourceAmpReal); %doesn't work, needs to be real
+    %hologram = complex(hologramReal,ApproxSourceAmpImag);
     
     hologramInput = (InputField.*exp(1i*hologram));
     
