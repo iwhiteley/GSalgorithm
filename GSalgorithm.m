@@ -18,10 +18,22 @@ while (iteration < TotalIterations)
     %hologram = round(angle(ApproxSourceAmp)*256/(2*pi))/(256/(2*pi)); 
     %for SLM, works well
     
-      meanApproxSourceAmp = mean(mean(ApproxSourceAmp)); %for DMD
-      hologram = ApproxSourceAmp()>meanApproxSourceAmp; %for DMD
-      meanHologram = mean(mean(hologram));
-      meanApproxSourceAmp = meanHologram;
+    hologram = round(angle(ApproxSourceAmp)*256/(2*pi))/(256/(2*pi));
+    threshold = 0;
+    hologrambin = hologram;
+    hologrambin(hologrambin > threshold) = pi;
+    hologrambin(hologrambin <= threshold) = 0;
+    
+%     if hologram() > 0
+%         hologram = pi;
+%     elseif hologram() <= 0
+%         hologram = 0;
+%     end
+    
+%       meanApproxSourceAmp = mean(mean(ApproxSourceAmp)); %for DMD
+%       hologram = ApproxSourceAmp()>meanApproxSourceAmp; %for DMD
+%       meanHologram = mean(mean(hologram));
+%       meanApproxSourceAmp = meanHologram;
      
 %       ApproxSourceAmpReal = real(ApproxSourceAmp);
 %       ApproxSourceAmpImag = imag(ApproxSourceAmp);
@@ -33,7 +45,9 @@ while (iteration < TotalIterations)
 %     ApproxSourceAmpImag = imag(ApproxSourceAmp);
 %     hologram = imbinarize(ApproxSourceAmpReal);
   
-    hologramInput = (InputField.*exp(1i*hologram));
+    %hologramInput = (InputField.*exp(1i*hologram)); %for slm
+    
+    hologramInput = (InputField.*exp(1i*hologrambin));
     
     iteration = iteration +1;
     
