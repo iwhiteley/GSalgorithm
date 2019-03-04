@@ -15,14 +15,14 @@ while (iteration < TotalIterations)
     
     ApproxSourceAmp = ifft2(fftshift(NewTarget));
     
-    %hologram = round(angle(ApproxSourceAmp)*256/(2*pi))/(256/(2*pi)); 
+    % hologram = round(angle(ApproxSourceAmp)*256/(2*pi))/(256/(2*pi)); 
     %for SLM, works well
     
     hologram = round(angle(ApproxSourceAmp)*256/(2*pi))/(256/(2*pi));
     threshold = 0;
-    hologrambin = hologram;
-    hologrambin(hologrambin > threshold) = pi;
-    hologrambin(hologrambin <= threshold) = 0;
+  % hologrambin = hologram;
+    hologram(hologram > threshold) = pi;
+    hologram(hologram <= threshold) = 0;
     
 %     if hologram() > 0
 %         hologram = pi;
@@ -47,7 +47,7 @@ while (iteration < TotalIterations)
   
     %hologramInput = (InputField.*exp(1i*hologram)); %for slm
     
-    hologramInput = (InputField.*exp(1i*hologrambin));
+    hologramInput = (InputField.*exp(1i*hologram));
     
     iteration = iteration +1;
     
