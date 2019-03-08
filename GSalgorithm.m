@@ -15,37 +15,21 @@ while (iteration < TotalIterations)
     
     ApproxSourceAmp = ifft2(fftshift(NewTarget));
     
+    %SLM, works well
     % hologram = round(angle(ApproxSourceAmp)*256/(2*pi))/(256/(2*pi)); 
-    %for SLM, works well
     
-    hologram = round(angle(ApproxSourceAmp)*256/(2*pi))/(256/(2*pi));
+   
+%     %DMD binary phase
+%     hologram = round(angle(ApproxSourceAmp)*256/(2*pi))/(256/(2*pi));
+%     threshold = 0;
+%     hologram(hologram > threshold) = pi;
+%     hologram(hologram <= threshold) = 0;
+    
+    %DMD binary amplitude
+    hologram = ApproxSourceAmp*256/(2*pi)/(256/(2*pi));
     threshold = 0;
-  % hologrambin = hologram;
     hologram(hologram > threshold) = pi;
     hologram(hologram <= threshold) = 0;
-    
-%     if hologram() > 0
-%         hologram = pi;
-%     elseif hologram() <= 0
-%         hologram = 0;
-%     end
-    
-%       meanApproxSourceAmp = mean(mean(ApproxSourceAmp)); %for DMD
-%       hologram = ApproxSourceAmp()>meanApproxSourceAmp; %for DMD
-%       meanHologram = mean(mean(hologram));
-%       meanApproxSourceAmp = meanHologram;
-     
-%       ApproxSourceAmpReal = real(ApproxSourceAmp);
-%       ApproxSourceAmpImag = imag(ApproxSourceAmp);
-%       binApproxSourceAmpReal = imbinarize(ApproxSourceAmpReal);
-%       hologramReal = int(cell2mat(binApproxSourceAmpReal)); %doesn't work, needs to be real
-%       hologram = complex(hologramReal,ApproxSourceAmpImag);
-%     
-%     ApproxSourceAmpReal = real(ApproxSourceAmp);
-%     ApproxSourceAmpImag = imag(ApproxSourceAmp);
-%     hologram = imbinarize(ApproxSourceAmpReal);
-  
-    %hologramInput = (InputField.*exp(1i*hologram)); %for slm
     
     hologramInput = (InputField.*exp(1i*hologram));
     
