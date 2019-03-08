@@ -12,20 +12,15 @@ title('targetImage')
 TotalIterations = 100;
 
 InputField = complex(ones(ImageSize)); % Set up a uniform electric field with a phase of zero hitting the SLM.
-SLM = round(rand(ImageSize)*255)*2*pi/255 - pi; 
 
-% mybin = [0,pi];
-% pos= randi([1,2]),ImageSize);%*2*pi - pi;
-% DMD = mybin(pos);
+SLM = round(rand(ImageSize)*255)*2*pi/255 - pi; 
 
 DMD = randi([0,1],ImageSize)*pi;  % DMD is now binary, 0 or pi
 
 hologramInputIn = hologramInputDMD(DMD,InputField);
 %hologramInputIn = hologramInputSLM(SLM,InputField);
-%hologramInput= device(hologramInputIn);
 
 [ApproxTargetI,Performance] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage);
-
 
 %figure(2)
 subplot(2,2,2);
