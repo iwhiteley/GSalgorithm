@@ -31,7 +31,8 @@ while (iteration < TotalIterations)
     hologram(hologram > threshold) = pi;
     hologram(hologram <= threshold) = 0;
     
-    hologramInput = (InputField.*exp(1i*hologram));
+%     hologramInput = (InputField.*exp(1i*hologram)); % for SLM
+    hologramInput = (InputField.*(hologram/pi));
     
     iteration = iteration +1;
     
