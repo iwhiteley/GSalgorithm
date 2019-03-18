@@ -28,6 +28,10 @@ imagesc(ApproxTargetI)
 title('Approx Target')
 
 %figure(3)
-subplot(2,2,[3,4])
+subplot(2,2,3)
 plot(Performance)
 title('Performance')
+
+subplot(2,2,4);
+imagesc(ApproxTargetI(1:60,1:60))
+title('hologram zoom')
