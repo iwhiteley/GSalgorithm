@@ -32,7 +32,7 @@ while (iteration < TotalIterations)
     hologram(hologram <= threshold) = 0;
     
 %     hologramInput = (InputField.*exp(1i*hologram)); % for SLM
-    hologramInput = (InputField.*(hologram/pi));
+    hologramInput = (InputField.*(hologram./pi)); % for DMD
     
     iteration = iteration +1;
     
