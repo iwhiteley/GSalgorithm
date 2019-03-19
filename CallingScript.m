@@ -1,6 +1,6 @@
 %%% Calling script
 
-ImageSize = [128, 128];
+ImageSize = [1024, 768];
 targetImage = targetImageFunc(ImageSize);
 
 figure;
@@ -33,5 +33,5 @@ plot(Performance)
 title('Performance')
 
 subplot(2,2,4);
-imagesc(ApproxTargetI(1:60,1:60))
+imagesc(ApproxTargetI(400:600,1:100))
 title('hologram zoom')
