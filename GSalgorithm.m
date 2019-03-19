@@ -8,7 +8,8 @@ while (iteration < TotalIterations)
     TargetPl = fftshift(fft2(hologramInput));   
     
     ApproxTargetI = abs(TargetPl).^2;
-    
+    ApproxTargetI(ApproxTargetI > 10^10)=0;  %trying to mask centre pixels
+
     FTTargetPhase = angle(TargetPl);
     
     NewTarget = (targetImage .* exp(1i*FTTargetPhase));
