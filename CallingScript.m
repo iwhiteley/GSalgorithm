@@ -1,6 +1,6 @@
 %%% Calling script
 
-ImageSize = [1024, 768];
+ImageSize = [768, 768];
 targetImage = targetImageFunc(ImageSize);
 
 figure;
