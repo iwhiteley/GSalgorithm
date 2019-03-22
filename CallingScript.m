@@ -1,7 +1,9 @@
 %%% Calling script
 
 ImageSize = [768, 768];
-targetImage = targetImageFunc(ImageSize);
+raw = imread('smiley2.png');
+targetImage = targetImageFunc(ImageSize,raw);
+
 
 figure;
 %figure(1)
