@@ -1,5 +1,5 @@
 %%% Gerchberg saxton
-function [ApproxTargetI,Performance] = GSalgorithm(hologramInput,InputField, TotalIterations, targetImage)
+function [ApproxTargetI,Performance,hologram] = GSalgorithm(hologramInput,InputField, TotalIterations, targetImage)
 iteration = 0;
 Performance = zeros(1,TotalIterations);
 %hologramInput = hologramInputIn;
