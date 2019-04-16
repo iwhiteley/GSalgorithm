@@ -1,11 +1,11 @@
 %%% Gerchberg saxton
-function [ApproxTargetI,Performance,hologram] = GSalgorithm(hologramInput,InputField, TotalIterations, targetImage)
+function [ApproxTargetI,Performance,hologram] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage)
 iteration = 0;
 Performance = zeros(1,TotalIterations);
 %hologramInput = hologramInputIn;
 while (iteration < TotalIterations) 
    
-    TargetPl = fftshift(fft2(hologramInput));   
+    TargetPl = fftshift(fft2(hologramInputIn));   
     
     ApproxTargetI = abs(TargetPl).^2;
     ApproxTargetI(ApproxTargetI > 10^10)=0;  %trying to mask centre pixels
@@ -33,7 +33,7 @@ while (iteration < TotalIterations)
     hologram(hologram <= threshold) = 0;
     
 %     hologramInput = (InputField.*exp(1i*hologram)); % for SLM
-    hologramInput = (InputField.*(hologram./pi)); % for DMD
+    hologramInputIn = (InputField.*(hologram./pi)); % for DMD
     
     iteration = iteration +1;
     
