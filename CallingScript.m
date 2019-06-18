@@ -17,7 +17,7 @@ InputField = complex(ones(ImageSize)); % Set up a uniform electric field with a 
 SLM = round(rand(ImageSize)*255)*2*pi/255 - pi; 
 
 DMD = randi([0,1],ImageSize)*pi;  % DMD is now binary, 0 or pi
-
+%DMD = ones(ImageSize)*pi;
 hologramInputIn = hologramInputDMD(DMD,InputField);
 %hologramInputIn = hologramInputSLM(SLM,InputField);
 
