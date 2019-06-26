@@ -38,7 +38,7 @@ while (iteration < TotalIterations)
     iteration = iteration +1;
     
     ApproxTargetINorm = (ApproxTargetI - mean(ApproxTargetI(:)))./std(ApproxTargetI(:));
-    Performance(iteration) = sum(sum(abs(ApproxTargetINorm(:) - targetImage(:))));
+    Performance(iteration) = 1- (sum(sum(abs(ApproxTargetINorm(:) - targetImage(:))))./length(ApproxTargetI)./length(ApproxTargetI));
 end
 end
 
