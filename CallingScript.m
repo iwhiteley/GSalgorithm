@@ -15,7 +15,7 @@ title('Target Image')
 xlabel('Pixel')
 ylabel('Pixel')
 
-TotalIterations = 100;
+TotalIterations = 10;
 
 InputField = complex(ones(ImageSize)); % Set up a uniform electric field with a phase of zero hitting the SLM.
 
@@ -38,8 +38,9 @@ ylabel('Pixel')
 subplot(2,2,3)
 plot(Performance)
 title('Performance')
-xlabel('')
-ylabel('Iteration')
+xlabel('Iteration')
+ylabel('Pixel Similarity')
+ylim([0.2,1])
 
 subplot(2,2,4);
 %imagesc(ApproxTargetI(400:600,1:100))
