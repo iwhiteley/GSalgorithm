@@ -27,7 +27,7 @@ while (iteration < TotalIterations)
 %     hologram(hologram <= threshold) = 0;
     
     %DMD binary amplitude
-    hologram = ApproxSourceAmp*256/(2*pi)/(256/(2*pi));
+    hologram = ApproxSourceAmp*256/(2*pi)/(256/(2*pi)); %here hologram = approxsourceamp, makes no difference
     threshold = 0;
     hologram(hologram > threshold) = pi;
     hologram(hologram <= threshold) = 0;
