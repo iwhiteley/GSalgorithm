@@ -11,7 +11,7 @@ function targetImage = targetImageFunc(ImageSize,raw)
 targetImage = complex(zeros(ImageSize));
 rawImage = raw;
 
-if class(rawImage) == 'uint8'
+if strcmp(class(rawImage),'uint8')
     Image = mean(imresize(rawImage, (ImageSize/2)),3)./255;
 
 else
