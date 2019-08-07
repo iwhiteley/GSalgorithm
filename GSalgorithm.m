@@ -1,8 +1,9 @@
 %%% Gerchberg saxton
-function [ApproxTargetI,Performance,hologram] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage)
+function [ApproxTargetI,RMSE,hologram] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage)
 iteration = 0;
-Performance = zeros(1,TotalIterations);
-%hologramInput = hologramInputIn;
+%Performance = zeros(1,TotalIterations);
+RMSE = zeros(1,TotalIterations);
+
 while (iteration < TotalIterations) 
    
     TargetPl = fftshift(fft2(hologramInputIn));   
@@ -14,11 +15,11 @@ while (iteration < TotalIterations)
     
     NewTarget = (targetImage .* exp(1i*FTTargetPhase));
     
-    ApproxSourceAmp = ifft2(fftshift(NewTarget));
-    %hologram = ifft2(fftshift(NewTarget));
+    ApproxSourceAmp = ifft2(ifftshift(NewTarget));
     
     %SLM, works well
-    % hologram = round(angle(ApproxSourceAmp)*256/(2*pi))/(256/(2*pi)); 
+    %hologram = round(angle(ApproxSourceAmp)*256/(2*pi))/(256/(2*pi));
+    hologram = angle(ApproxSourceAmp);
     
    
 %     %DMD binary phase
@@ -28,19 +29,24 @@ while (iteration < TotalIterations)
 %     hologram(hologram <= threshold) = 0;
     
     %DMD binary amplitude
-    hologram = ApproxSourceAmp*256/(2*pi)/(256/(2*pi)); %here hologram = approxsourceamp, makes no difference
+    %hologram = ApproxSourceAmp*256/(2*pi)/(256/(2*pi)); %here hologram = approxsourceamp, makes no difference
+    %hologram = angle(ApproxSourceAmp);
     %hologram = ApproxSourceAmp;
-    threshold = 0;
-    hologram(hologram > threshold) = pi;
-    hologram(hologram <= threshold) = 0;
+    %threshold = 0;
+    %hologram(hologram > threshold) = pi;
+    %hologram(hologram <= threshold) = 0;
     
-%     hologramInput = (InputField.*exp(1i*hologram)); % for SLM
-    hologramInputIn = complex((InputField.*(hologram./pi))); % for DMD
+    hologramInputIn = (InputField.*exp(1i*hologram)); % for SLM
+    %hologramInputIn = complex((InputField.*(hologram./pi))); % for DMD
     
     iteration = iteration +1;
     
     ApproxTargetINorm = (ApproxTargetI - mean(ApproxTargetI(:)))./std(ApproxTargetI(:));
-    Performance(iteration) = 1- (sum(sum(abs(ApproxTargetINorm(:) - targetImage(:))))./length(ApproxTargetI)./length(ApproxTargetI));
+    targetImageNorm = (targetImage - mean(targetImage(:)))./std(targetImage(:));
+    
+    RMSE(iteration) = sqrt(mean(((targetImageNorm(:) - ApproxTargetINorm(:)).^2)));
+    
+    
+    %Performance(iteration) = 1- (sum(sum(abs(ApproxTargetINorm(:) - targetImage(:))))./length(ApproxTargetI)./length(ApproxTargetI));
 end
 end
-
