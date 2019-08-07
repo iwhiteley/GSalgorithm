@@ -14,8 +14,8 @@ while (iteration < TotalIterations)
     
     NewTarget = (targetImage .* exp(1i*FTTargetPhase));
     
-    %ApproxSourceAmp = ifft2(fftshift(NewTarget));
-    hologram = ifft2(fftshift(NewTarget));
+    ApproxSourceAmp = ifft2(fftshift(NewTarget));
+    %hologram = ifft2(fftshift(NewTarget));
     
     %SLM, works well
     % hologram = round(angle(ApproxSourceAmp)*256/(2*pi))/(256/(2*pi)); 
@@ -28,14 +28,14 @@ while (iteration < TotalIterations)
 %     hologram(hologram <= threshold) = 0;
     
     %DMD binary amplitude
-    %hologram = ApproxSourceAmp*256/(2*pi)/(256/(2*pi)); %here hologram = approxsourceamp, makes no difference
+    hologram = ApproxSourceAmp*256/(2*pi)/(256/(2*pi)); %here hologram = approxsourceamp, makes no difference
     %hologram = ApproxSourceAmp;
     threshold = 0;
     hologram(hologram > threshold) = pi;
     hologram(hologram <= threshold) = 0;
     
 %     hologramInput = (InputField.*exp(1i*hologram)); % for SLM
-    hologramInputIn = (InputField.*(hologram./pi)); % for DMD
+    hologramInputIn = complex((InputField.*(hologram./pi))); % for DMD
     
     iteration = iteration +1;
     

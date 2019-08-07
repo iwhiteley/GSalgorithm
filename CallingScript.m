@@ -15,7 +15,7 @@ title('Target Image')
 xlabel('Pixel')
 ylabel('Pixel')
 
-TotalIterations = 10;
+TotalIterations = 5;
 
 InputField = complex(ones(ImageSize)); % Set up a uniform electric field with a phase of zero hitting the SLM.
 
@@ -48,3 +48,4 @@ imagesc(hologram)
 title('Hologram')
 xlabel('Pixel')
 ylabel('Pixel')
+
