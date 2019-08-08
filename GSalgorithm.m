@@ -41,10 +41,13 @@ while (iteration < TotalIterations)
     
     iteration = iteration +1;
     
-    ApproxTargetINorm = (ApproxTargetI - mean(ApproxTargetI(:)))./std(ApproxTargetI(:));
-    targetImageNorm = (targetImage - mean(targetImage(:)))./std(targetImage(:));
+    trim = size(ApproxTargetI)/2;
+    trimApproxTarget = ApproxTargetI(1:trim,1:trim);
+    trimTargetImage = targetImage(1:trim,1:trim);
+    TrimApproxTargetNorm = (trimApproxTarget - mean(trimApproxTarget(:)))./std(trimApproxTarget(:));
+    TrimtargetImageNorm = (trimTargetImage - mean(trimTargetImage(:)))./std(trimTargetImage(:));
     
-    RMSE(iteration) = sqrt(mean(((targetImageNorm(:) - ApproxTargetINorm(:)).^2)));
+    RMSE(iteration) = sqrt(mean(((TrimApproxTargetNorm(:) - TrimtargetImageNorm(:)).^2)));
     
     
     %Performance(iteration) = 1- (sum(sum(abs(ApproxTargetINorm(:) - targetImage(:))))./length(ApproxTargetI)./length(ApproxTargetI));
