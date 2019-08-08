@@ -15,7 +15,7 @@ title('Target Image')
 xlabel('Pixel')
 ylabel('Pixel')
 
-TotalIterations = 10;
+TotalIterations = 100;
 
 InputField = complex(ones(ImageSize)); % Set up a uniform electric field with a phase of zero hitting the SLM.
 
@@ -26,12 +26,20 @@ SLM = round(rand(ImageSize)*255)*2*pi/255 - pi;
 %hologramInputIn = hologramInputDMD(DMD,InputField);
 hologramInputIn = hologramInputSLM(SLM,InputField);
 
+loopnum = 0;
+finalLoop = 10;
+
+while (loopnum < finalLoop)
 [ApproxTargetI,RMSE, hologram] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage);
 DMD = hologram>0; % HACK - logical TRUE = 1
 TargetEstimate = abs(fftshift(fft2(InputField.*DMD)));
 TargetEstimate(floor(ImageSize(1)./2)+1, floor(ImageSize(2)./2)+1) = 0;
 
 trimTargetEstimate = TargetEstimate(1:trim,1:trim);
+trimTargetEstimateNorm = (trimTargetEstimate - mean(trimTargetEstimate(:)))./std(trimTargetEstimate(:));
+
+RMSEtargetEst(loopnum) = sqrt(mean(((trimTargetEstimateNorm(:) - TrimtargetImageNorm(:)).^2)));
+end
 
 subplot(2,2,2);
 %imagesc(ApproxTargetI)
@@ -52,3 +60,5 @@ title('Hologram')
 xlabel('Pixel')
 ylabel('Pixel')
 
+figure(2)
+plot(RMSEtargetEst)
