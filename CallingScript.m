@@ -27,7 +27,7 @@ SLM = round(rand(ImageSize)*255)*2*pi/255 - pi;
 hologramInputIn = hologramInputSLM(SLM,InputField);
 
 loopnum = 0;
-finalLoop = 10;
+finalLoop = 5;
 
 while (loopnum < finalLoop)
 [ApproxTargetI,RMSE, hologram] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage);
@@ -64,7 +64,7 @@ title('Hologram')
 xlabel('Pixel')
 ylabel('Pixel')
 
-figure(2)
+figure;
 plot(RMSEtargetEst)
 title('RMSE target vs Amplitude Hol')
 xlabel('Iteration')
