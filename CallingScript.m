@@ -15,7 +15,7 @@ title('Target Image')
 xlabel('Pixel')
 ylabel('Pixel')
 
-TotalIterations = 100;
+TotalIterations = 5;
 
 InputField = complex(ones(ImageSize)); % Set up a uniform electric field with a phase of zero hitting the SLM.
 
@@ -32,7 +32,9 @@ finalLoop = 10;
 while (loopnum < finalLoop)
 [ApproxTargetI,RMSE, hologram] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage);
 DMD = hologram>0; % HACK - logical TRUE = 1
-TargetEstimate = abs(fftshift(fft2(InputField.*DMD)));
+DMDnum = double(DMD);
+
+TargetEstimate = abs(fftshift(fft2(InputField.*DMDnum)));
 TargetEstimate(floor(ImageSize(1)./2)+1, floor(ImageSize(2)./2)+1) = 0;
 
 trimTargetEstimate = TargetEstimate(1:trim,1:trim);
