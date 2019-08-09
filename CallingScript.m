@@ -37,6 +37,8 @@ DMDnum = double(DMD);
 TargetEstimate = abs(fftshift(fft2(InputField.*DMDnum)));
 TargetEstimate(floor(ImageSize(1)./2)+1, floor(ImageSize(2)./2)+1) = 0;
 
+loopnum = loopnum +1 ;
+
 trimTargetEstimate = TargetEstimate(1:trim,1:trim);
 trimTargetEstimateNorm = (trimTargetEstimate - mean(trimTargetEstimate(:)))./std(trimTargetEstimate(:));
 
@@ -64,3 +66,6 @@ ylabel('Pixel')
 
 figure(2)
 plot(RMSEtargetEst)
+title('RMSE target vs Amplitude Hol')
+xlabel('Iteration')
+ylabel('RMSE') 
