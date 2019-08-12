@@ -1,8 +1,8 @@
 %%% Gerchberg saxton
-function [ApproxTargetI,RMSE,hologram] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage)
+function [TargetEstimate,RMSEtargetEst,hologram] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage, ImageSize)
 iteration = 0;
 %Performance = zeros(1,TotalIterations);
-RMSE = zeros(1,TotalIterations);
+RMSEtargetEst = zeros(1,TotalIterations);
 
 while (iteration < TotalIterations) 
    
@@ -39,6 +39,12 @@ while (iteration < TotalIterations)
     hologramInputIn = (InputField.*exp(1i*hologram)); % for SLM
     %hologramInputIn = complex((InputField.*(hologram./pi))); % for DMD
     
+    DMD = hologram>0; % HACK - logical TRUE = 1
+    DMDnum = double(DMD);
+ 
+    TargetEstimate = abs(fftshift(fft2(InputField.*DMDnum)));
+    TargetEstimate(floor(ImageSize(1)./2)+1, floor(ImageSize(2)./2)+1) = 0;
+    
     iteration = iteration +1;
     
     trim = size(ApproxTargetI)/2;
@@ -47,7 +53,12 @@ while (iteration < TotalIterations)
     TrimApproxTargetNorm = (trimApproxTarget - mean(trimApproxTarget(:)))./std(trimApproxTarget(:));
     TrimtargetImageNorm = (trimTargetImage - mean(trimTargetImage(:)))./std(trimTargetImage(:));
     
-    RMSE(iteration) = sqrt(mean(((TrimApproxTargetNorm(:) - TrimtargetImageNorm(:)).^2)));
+    trimTargetEstimate = TargetEstimate(1:trim,1:trim);
+    trimTargetEstimateNorm = (trimTargetEstimate - mean(trimTargetEstimate(:)))./std(trimTargetEstimate(:));
+ 
+    RMSEtargetEst(iteration) = sqrt(mean(((trimTargetEstimateNorm(:) - TrimtargetImageNorm(:)).^2)));
+    
+    %RMSE(iteration) = sqrt(mean(((TrimApproxTargetNorm(:) - TrimtargetImageNorm(:)).^2)));
     
     
     %Performance(iteration) = 1- (sum(sum(abs(ApproxTargetINorm(:) - targetImage(:))))./length(ApproxTargetI)./length(ApproxTargetI));
