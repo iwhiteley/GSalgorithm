@@ -1,7 +1,7 @@
 %%% Gerchberg saxton
 function [TargetEstimate,RMSEtargetEst,hologram] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage, ImageSize)
 iteration = 0;
-%Performance = zeros(1,TotalIterations);
+
 RMSEtargetEst = zeros(1,TotalIterations);
 
 while (iteration < TotalIterations) 
@@ -18,7 +18,6 @@ while (iteration < TotalIterations)
     ApproxSourceAmp = ifft2(ifftshift(NewTarget));
     
     %SLM, works well
-    %hologram = round(angle(ApproxSourceAmp)*256/(2*pi))/(256/(2*pi));
     hologram = angle(ApproxSourceAmp);
     
    
@@ -57,10 +56,6 @@ while (iteration < TotalIterations)
     trimTargetEstimateNorm = (trimTargetEstimate - mean(trimTargetEstimate(:)))./std(trimTargetEstimate(:));
  
     RMSEtargetEst(iteration) = sqrt(mean(((trimTargetEstimateNorm(:) - TrimtargetImageNorm(:)).^2)));
-    
-    %RMSE(iteration) = sqrt(mean(((TrimApproxTargetNorm(:) - TrimtargetImageNorm(:)).^2)));
-    
-    
-    %Performance(iteration) = 1- (sum(sum(abs(ApproxTargetINorm(:) - targetImage(:))))./length(ApproxTargetI)./length(ApproxTargetI));
+
 end
 end
