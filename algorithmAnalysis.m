@@ -26,4 +26,7 @@ end
 % ypoints = range(0.3:0.4)
 % scatter(xpoints)
 
-boxplot(
+RMSEfinalIteration = boxplot([finalIteration5(:), finalIteration10(:), finalIteration50(:), finalIteration100(:)],'Labels', {'5 Iterations','10 Iterations','50 Iterations','100 Iterations'});
+xlabel('Number of Iterations')
+ylabel('RMSE')
+title('RMSE of final Iteration')
