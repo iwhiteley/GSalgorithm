@@ -8,14 +8,14 @@ targetImage = targetImageFunc(ImageSize,raw);
 x_axis_labels={'Pixel', 'Pixel','', 'Pixel'};
 y_axis_labels = {'Pixel', 'Pixel', 'Iteration', 'Pixel'};
 
-figure(1);
-subplot(2,2,1);
-imagesc(abs(targetImage));
-title('Target Image')
-xlabel('Pixel')
-ylabel('Pixel')
+% figure(1);
+% subplot(2,2,1);
+% imagesc(abs(targetImage));
+% title('Target Image')
+% xlabel('Pixel')
+% ylabel('Pixel')
 
-TotalIterations = 5;
+TotalIterations = 100;
 
 InputField = complex(ones(ImageSize)); % Set up a uniform electric field with a phase of zero hitting the SLM.
 
@@ -25,39 +25,53 @@ SLM = round(rand(ImageSize)*255)*2*pi/255 - pi;
 %DMD = ones(ImageSize)*pi;
 %hologramInputIn = hologramInputDMD(DMD,InputField);
 
-
-TotalLoops = 5;
+ 
+TotalLoops = 100;
 Performance = NaN(TotalIterations,TotalLoops);
+ElapsedTimeVector = zeros(1,TotalLoops);
 for index= 1:TotalLoops
+    tic
     SLM = round(rand(ImageSize)*255)*2*pi/255 - pi;
     hologramInputIn = hologramInputSLM(SLM,InputField);
     
     
     [TargetEstimate,RMSEtargetEst, hologram] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage, ImageSize);
     Performance(:,index) = RMSEtargetEst;
+    elapsed_time = toc;
+    ElapsedTimeVector(index) = elapsed_time;
+    disp([num2str(index),' Elapsed Time = ',num2str(elapsed_time)])
 end
 
 %% Plot results
-figure(2);
+figure(1);
 XCoords = (1:TotalIterations)'*ones(1,TotalLoops);
 scatter(XCoords(:),Performance(:))
-
-figure(1)
-subplot(2,2,2);
-%imagesc(ApproxTargetI)
-imagesc(TargetEstimate)
-title('Approximate Target')
-xlabel('Pixel')
-ylabel('Pixel')
-
-subplot(2,2,3)
-plot(RMSEtargetEst)
-title('Performance')
 xlabel('Iteration')
 ylabel('RMSE')
+title('RMSE of 100 loops of 5 iterations')
 
-subplot(2,2,4);
-imagesc(hologram)
-title('Hologram')
-xlabel('Pixel')
-ylabel('Pixel')
+figure(2);
+plot(ElapsedTimeVector);
+title('Time of each loop')
+xlabel('Loop')
+ylabel('time (s)')
+
+% figure(1)
+% subplot(2,2,2);
+% %imagesc(ApproxTargetI)
+% imagesc(TargetEstimate)
+% title('Approximate Target')
+% xlabel('Pixel')
+% ylabel('Pixel')
+% 
+% subplot(2,2,3)
+% plot(RMSEtargetEst)
+% title('Performance')
+% xlabel('Iteration')
+% ylabel('RMSE')
+% 
+% subplot(2,2,4);
+% imagesc(hologram)
+% title('Hologram')
+% xlabel('Pixel')
+% ylabel('Pixel')
