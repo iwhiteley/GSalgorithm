@@ -35,27 +35,27 @@ while (iteration < TotalIterations)
     %hologram(hologram > threshold) = pi;
     %hologram(hologram <= threshold) = 0;
     
-    hologramInputIn = (InputField.*exp(1i*hologram)); % for SLM
+    hologramInputIn = (InputField.*exp(1i*hologram)); % for SLM --- phase hologram
     %hologramInputIn = complex((InputField.*(hologram./pi))); % for DMD
     
     DMD = hologram>0; % HACK - logical TRUE = 1
     DMDnum = double(DMD);
  
     TargetEstimate = abs(fftshift(fft2(InputField.*DMDnum)));
-    TargetEstimate(floor(ImageSize(1)./2)+1, floor(ImageSize(2)./2)+1) = 0;
+    TargetEstimate(floor(ImageSize(1)./2)+1, floor(ImageSize(2)./2)+1) = 0; %last loop for amplitude hologram
     
     iteration = iteration +1;
     
     trim = size(ApproxTargetI)/2;
-    trimApproxTarget = ApproxTargetI(1:trim,1:trim);
-    trimTargetImage = targetImage(1:trim,1:trim);
+    trimApproxTarget = ApproxTargetI(1:trim,1:trim); %phase hologram image
+    trimTargetImage = targetImage(1:trim,1:trim); %target image
     TrimApproxTargetNorm = (trimApproxTarget - mean(trimApproxTarget(:)))./std(trimApproxTarget(:));
     TrimtargetImageNorm = (trimTargetImage - mean(trimTargetImage(:)))./std(trimTargetImage(:));
     
-    trimTargetEstimate = TargetEstimate(1:trim,1:trim);
-    trimTargetEstimateNorm = (trimTargetEstimate - mean(trimTargetEstimate(:)))./std(trimTargetEstimate(:));
+    trimTargetEstimate = TargetEstimate(1:trim,1:trim); % amplitude hologram image
+    trimTargetEstimateNorm = (trimTargetEstimate - mean(trimTargetEstimate(:)))./std(trimTargetEstimate(:)); %amplitude hologram image normalised
  
-    RMSEtargetEst(iteration) = sqrt(mean(((trimTargetEstimateNorm(:) - TrimtargetImageNorm(:)).^2)));
+    RMSEtargetEst(iteration) = sqrt(mean(((trimTargetEstimateNorm(:) - TrimtargetImageNorm(:)).^2))); %RMSE of amplitude hologram image vs target image
 
 end
 end
