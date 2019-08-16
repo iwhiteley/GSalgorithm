@@ -1,5 +1,5 @@
 %%% Gerchberg saxton
-function [TargetEstimate,RMSEtargetEst,hologram] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage, ImageSize)
+function [TargetEstimate,RMSEtargetEst,DMDnum] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage, ImageSize)
 iteration = 0;
 
 RMSEtargetEst = zeros(1,TotalIterations);
@@ -19,21 +19,6 @@ while (iteration < TotalIterations)
     
     %SLM, works well
     hologram = angle(ApproxSourceAmp);
-    
-   
-%     %DMD binary phase
-%     hologram = round(angle(ApproxSourceAmp)*256/(2*pi))/(256/(2*pi));
-%     threshold = 0;
-%     hologram(hologram > threshold) = pi;
-%     hologram(hologram <= threshold) = 0;
-    
-    %DMD binary amplitude
-    %hologram = ApproxSourceAmp*256/(2*pi)/(256/(2*pi)); %here hologram = approxsourceamp, makes no difference
-    %hologram = angle(ApproxSourceAmp);
-    %hologram = ApproxSourceAmp;
-    %threshold = 0;
-    %hologram(hologram > threshold) = pi;
-    %hologram(hologram <= threshold) = 0;
     
     hologramInputIn = (InputField.*exp(1i*hologram)); % for SLM --- phase hologram
     %hologramInputIn = complex((InputField.*(hologram./pi))); % for DMD
