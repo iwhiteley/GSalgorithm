@@ -1,5 +1,6 @@
 %% data analysis
 load 100iter100loop.mat
+load timeVectorAllIters.mat
 
 %average RMSE of the final product of the algorithm
 finalIteration100 = Performance(end, :);
@@ -30,3 +31,8 @@ RMSEfinalIteration = boxplot([finalIteration5(:), finalIteration10(:), finalIter
 xlabel('Number of Iterations')
 ylabel('RMSE')
 title('RMSE of final Iteration')
+
+AverageTimePerLoop = boxplot([ElapsedTime5iter(:), ElapsedTime10iter(:), ElapsedTime50iter(:), ElapsedTime100iter(:)], 'Labels', {'5 Iterations','10 Iterations','50 Iterations','100 Iterations'});
+xlabel('Number of Iterations')
+ylabel('Time (s)')
+title('Average Time per Loop')
