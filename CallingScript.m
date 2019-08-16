@@ -8,12 +8,12 @@ targetImage = targetImageFunc(ImageSize,raw);
 x_axis_labels={'Pixel', 'Pixel','', 'Pixel'};
 y_axis_labels = {'Pixel', 'Pixel', 'Iteration', 'Pixel'};
 
-% figure(1);
-% subplot(2,2,1);
-% imagesc(abs(targetImage));
-% title('Target Image')
-% xlabel('Pixel')
-% ylabel('Pixel')
+figure(1);
+subplot(2,2,1);
+imagesc(abs(targetImage));
+title('Target Image')
+xlabel('Pixel')
+ylabel('Pixel')
 
 TotalIterations = 100;
 
@@ -26,7 +26,7 @@ SLM = round(rand(ImageSize)*255)*2*pi/255 - pi;
 %hologramInputIn = hologramInputDMD(DMD,InputField);
 
  
-TotalLoops = 100;
+TotalLoops = 1;
 Performance = NaN(TotalIterations,TotalLoops);
 ElapsedTimeVector = zeros(1,TotalLoops);
 for index= 1:TotalLoops
@@ -35,7 +35,7 @@ for index= 1:TotalLoops
     hologramInputIn = hologramInputSLM(SLM,InputField);
     
     
-    [TargetEstimate,RMSEtargetEst, hologram] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage, ImageSize);
+    [TargetEstimate,RMSEtargetEst, DMDnum] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage, ImageSize);
     Performance(:,index) = RMSEtargetEst;
     elapsed_time = toc;
     ElapsedTimeVector(index) = elapsed_time;
@@ -43,35 +43,41 @@ for index= 1:TotalLoops
 end
 
 %% Plot results
-figure(1);
-XCoords = (1:TotalIterations)'*ones(1,TotalLoops);
-scatter(XCoords(:),Performance(:))
-xlabel('Iteration')
-ylabel('RMSE')
-title('RMSE of 100 loops of 5 iterations')
-
-figure(2);
-plot(ElapsedTimeVector);
-title('Time of each loop')
-xlabel('Loop')
-ylabel('time (s)')
-
-% figure(1)
-% subplot(2,2,2);
-% %imagesc(ApproxTargetI)
-% imagesc(TargetEstimate)
-% title('Approximate Target')
-% xlabel('Pixel')
-% ylabel('Pixel')
-% 
-% subplot(2,2,3)
-% plot(RMSEtargetEst)
-% title('Performance')
+% figure(1);
+% XCoords = (1:TotalIterations)'*ones(1,TotalLoops);
+% scatter(XCoords(:),Performance(:))
 % xlabel('Iteration')
 % ylabel('RMSE')
+% title('RMSE of 100 loops of 5 iterations')
 % 
-% subplot(2,2,4);
-% imagesc(hologram)
-% title('Hologram')
-% xlabel('Pixel')
-% ylabel('Pixel')
+% figure(2);
+% plot(ElapsedTimeVector);
+% title('Time of each loop')
+% xlabel('Loop')
+% ylabel('time (s)')
+
+figure(1)
+subplot(2,2,2);
+%imagesc(ApproxTargetI)
+imagesc(TargetEstimate)
+title('Approximate Target')
+xlabel('Pixel')
+ylabel('Pixel')
+
+subplot(2,2,3)
+plot(RMSEtargetEst)
+title('Performance')
+xlabel('Iteration')
+ylabel('RMSE')
+
+subplot(2,2,4);
+imagesc(DMDnum)
+title('Hologram')
+xlabel('Pixel')
+ylabel('Pixel')
+
+%% Save data
+
+fileHandle = fopen('smileyHologram64.bin', 'w');
+fwrite(fileHandle, uint8(DMDnum), 'uint64');
+fclose(fileHandle);
