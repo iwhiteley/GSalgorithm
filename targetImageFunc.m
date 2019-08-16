@@ -20,6 +20,7 @@ end
 
 Imcomplex = zeros(size(Image),'like',Image);
 complexIm= complex(Image,Imcomplex);
-targetImage(1:size(complexIm,1),1:size(complexIm,2)) = complexIm;
+ImOffset = 0;
+targetImage((1:size(complexIm,1))+ImOffset,(1:size(complexIm,2))+ImOffset) = complexIm;
 %targetImage = imbinarize(targetImage);
 end
