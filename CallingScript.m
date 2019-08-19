@@ -5,9 +5,6 @@ raw = 1-(mean(imread('smiley.jpg'),3)./255);
 %raw = 1-(mean(imread('Imperial_Logo.png'),3)./255);
 targetImage = targetImageFunc(ImageSize,raw);
 
-x_axis_labels={'Pixel', 'Pixel','', 'Pixel'};
-y_axis_labels = {'Pixel', 'Pixel', 'Iteration', 'Pixel'};
-
 figure(1);
 subplot(2,2,1);
 imagesc(abs(targetImage));
@@ -18,9 +15,7 @@ ylabel('Pixel')
 TotalIterations = 100;
 
 InputField = complex(ones(ImageSize)); % Set up a uniform electric field with a phase of zero hitting the SLM.
-
 SLM = round(rand(ImageSize)*255)*2*pi/255 - pi;
-
 %DMD = randi([0,1],ImageSize);  % DMD is now binary, 0 or pi
 %DMD = ones(ImageSize)*pi;
 %hologramInputIn = hologramInputDMD(DMD,InputField);
@@ -31,9 +26,8 @@ Performance = NaN(TotalIterations,TotalLoops);
 ElapsedTimeVector = zeros(1,TotalLoops);
 for index= 1:TotalLoops
     tic
-    SLM = round(rand(ImageSize)*255)*2*pi/255 - pi;
+
     hologramInputIn = hologramInputSLM(SLM,InputField);
-    
     
     [TargetEstimate,RMSEtargetEst, DMDnum] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage, ImageSize);
     Performance(:,index) = RMSEtargetEst;
