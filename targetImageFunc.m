@@ -9,7 +9,7 @@ function targetImage = targetImageFunc(ImageSize,raw)
 % targetImage = imbinarize(targetImage);
 
 targetImage = complex(zeros(ImageSize));
-rawImage = raw;
+rawImage = fftshift(raw);
 
 if strcmp(class(rawImage),'uint8')
     Image = mean(imresize(rawImage, (ImageSize/2)),3)./255;
