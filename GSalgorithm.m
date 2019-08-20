@@ -31,16 +31,16 @@ while (iteration < TotalIterations)
     
     iteration = iteration +1;
     
-    trim = size(ApproxTargetI)/2;
-    trimApproxTarget = ApproxTargetI(1:trim,1:trim); %phase hologram image
-    trimTargetImage = targetImage(1:trim,1:trim); %target image
-    TrimApproxTargetNorm = (trimApproxTarget - mean(trimApproxTarget(:)))./std(trimApproxTarget(:));
-    TrimtargetImageNorm = (trimTargetImage - mean(trimTargetImage(:)))./std(trimTargetImage(:));
-    
-    trimTargetEstimate = TargetEstimate(1:trim,1:trim); % amplitude hologram image
-    trimTargetEstimateNorm = (trimTargetEstimate - mean(trimTargetEstimate(:)))./std(trimTargetEstimate(:)); %amplitude hologram image normalised
- 
-    RMSEtargetEst(iteration) = sqrt(mean(((trimTargetEstimateNorm(:) - TrimtargetImageNorm(:)).^2))); %RMSE of amplitude hologram image vs target image
+%     trim = size(ApproxTargetI)/2;
+%     trimApproxTarget = ApproxTargetI(1:trim,1:trim); %phase hologram image
+%     trimTargetImage = targetImage(1:trim,1:trim); %target image
+%     TrimApproxTargetNorm = (trimApproxTarget - mean(trimApproxTarget(:)))./std(trimApproxTarget(:));
+%     TrimtargetImageNorm = (trimTargetImage - mean(trimTargetImage(:)))./std(trimTargetImage(:));
+%     
+%     trimTargetEstimate = TargetEstimate(1:trim,1:trim); % amplitude hologram image
+%     trimTargetEstimateNorm = (trimTargetEstimate - mean(trimTargetEstimate(:)))./std(trimTargetEstimate(:)); %amplitude hologram image normalised
+%  
+%     RMSEtargetEst(iteration) = sqrt(mean(((trimTargetEstimateNorm(:) - TrimtargetImageNorm(:)).^2))); %RMSE of amplitude hologram image vs target image
 
 end
 end
