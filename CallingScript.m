@@ -93,5 +93,6 @@ end
 % fwrite(fileHandle, uint8(DMDnumArray), 'uint8');
 % fclose(fileHandle);
 
-imwrite(DMDnumArray,'ExsmallSmiley.png')
+%imwrite(DMDnumArray,'ExsmallSmiley.png')
+
 % save('50iter100loopSpot.mat', 'XCoords', 'Performance', 'ElapsedTimeVector', 'TargetEstimate', 'hologramStack');
