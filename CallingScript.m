@@ -39,7 +39,7 @@ for index= 1: TotalLoops %size(targetImage,3)
     ElapsedTimeVector(index) = elapsed_time;
     disp([num2str(index),' Elapsed Time = ',num2str(elapsed_time)])
 end
-
+XCoords = (1:TotalIterations)'*ones(1,TotalLoops);
 %% Plot results
 % figure(1);
 % XCoords = (1:TotalIterations)'*ones(1,TotalLoops);
