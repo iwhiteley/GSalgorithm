@@ -1,6 +1,6 @@
 %%% Gerchberg saxton
 function [TargetEstimate,RMSEtargetEst,DMDnum, elapsedIterTime] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage, ImageSize)
-iteration = 1;
+iteration = 0;
 
 RMSEtargetEst = zeros(1,TotalIterations);
 for index = 1: TotalIterations
@@ -28,7 +28,7 @@ for index = 1: TotalIterations
     TargetEstimate = abs(fftshift(fft2(InputField.*DMDnum)));
     TargetEstimate(floor(ImageSize(1)./2)+1, floor(ImageSize(2)./2)+1) = 0; %last loop for amplitude hologram
    iterTime = toc;
-   elapsedIterTime(iteration) = iterTime;
+   elapsedIterTime(index) = iterTime;
     iteration = iteration +1;
     
     trim = size(ApproxTargetI)/2;
