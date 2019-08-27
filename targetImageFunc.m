@@ -5,7 +5,7 @@ targetImage = complex(zeros(ImageSize));
 rawImage = raw;
 
 if strcmp(class(rawImage),'uint8')
-    Image = mean(imresize(rawImage, (ImageSize/2git add)),3)./255;
+    Image = mean(imresize(rawImage, (ImageSize/2)),3)./255;
 
 else
     Image = mean(imresize(rawImage, (ImageSize/2)),3);
