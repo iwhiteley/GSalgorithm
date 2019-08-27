@@ -3,8 +3,8 @@ function [TargetEstimate,RMSEtargetEst,DMDnum, elapsedIterTime] = GSalgorithm(ho
 iteration = 1;
 
 RMSEtargetEst = zeros(1,TotalIterations);
-
-while (iteration <= TotalIterations) 
+for index = 1: TotalIterations
+ 
    tic
     TargetPl = fftshift(fft2(hologramInputIn));   
     
