@@ -2,7 +2,7 @@
 
 ImageSize = [768, 768];
 raw = 1-(mean(imread('smiley.jpg'),3)./255);
-% raw = 1-(mean(imread('Imperial_Logo.png'),3)./255);
+%raw = 1-(mean(imread('Imperial_Logo.png'),3)./255);
 targetImage = targetImageFunc(ImageSize,raw);
 % load('spot96.mat');
 % targetImage = complex(spot);
@@ -11,33 +11,30 @@ targetImage = targetImageFunc(ImageSize,raw);
 %  imageSizeY = 768;
 %  targetImage = circle(imageSizeX,imageSizeY);
 
-% figure(1);
-% subplot(2,2,1);
-% imagesc(abs(targetImage));
-% title('Target Image')
-% xlabel('Pixel')
-% ylabel('Pixel')
-
-TotalIterations = 10;
+TotalIterations = 5;
 
 InputField = complex(ones(ImageSize)); % Set up a uniform electric field with a phase of zero hitting the SLM.
 
-
-TotalLoops = 1;
+TotalLoops = 100;
 Performance = NaN(TotalIterations,TotalLoops);
 ElapsedTimeVector = zeros(1,TotalLoops);
-% hologramStack = zeros([ImageSize,TotalLoops]);
- DMDnumArray = zeros(size(targetImage));
+hologramStack = zeros([ImageSize,TotalLoops]);
+imageStack = zeros([ImageSize, TotalLoops]);
+iterTimings = zeros([TotalIterations, TotalLoops]);
+% DMDnumArray = zeros(size(targetImage));
 for index= 1: TotalLoops %size(targetImage,3)
     tic
     SLM = round(rand(ImageSize)*255)*2*pi/255 - pi;
     hologramInputIn = hologramInputSLM(SLM,InputField);
     
-    %[TargetEstimate,RMSEtargetEst, DMDnum] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage(:,:,index), ImageSize);
-    [TargetEstimate,RMSEtargetEst, DMDnum] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage, ImageSize);
-     DMDnumArray(:,:,index) = DMDnum;
-%     Performance(:,index) = RMSEtargetEst;
-%     hologramStack(:,:,index) = DMDnum;
+   %[TargetEstimate,RMSEtargetEst, DMDnum] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage(:,:,index), ImageSize);
+    [TargetEstimate,RMSEtargetEst, DMDnum, elapsedIterTime] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage, ImageSize);
+     %DMDnumArray(:,:,index) = DMDnum;
+    Performance(:,index) = RMSEtargetEst;
+    hologramStack(:,:,index) = DMDnum;
+    imageStack(:,:,index) = TargetEstimate;
+    iterTimings(:,index) = elapsedIterTime;
+    
     elapsed_time = toc;
     ElapsedTimeVector(index) = elapsed_time;
     disp([num2str(index),' Elapsed Time = ',num2str(elapsed_time)])
@@ -56,25 +53,6 @@ end
 % title('Time of each loop')
 % xlabel('Loop')
 % ylabel('time (s)')
-
-% figure(1)
-% subplot(2,2,2);
-% imagesc(TargetEstimate)
-% title('Approximate Target')
-% xlabel('Pixel')
-% ylabel('Pixel')
-% 
-% subplot(2,2,3)
-% plot(RMSEtargetEst)
-% title('Performance')
-% xlabel('Iteration')
-% ylabel('RMSE')
-% 
-% subplot(2,2,4);
-% imagesc(DMDnum)
-% title('Hologram')
-% xlabel('Pixel')
-% ylabel('Pixel')
 
 % for index = 1:size(DMDnumArray,3)
 %     figure(1)
@@ -95,4 +73,4 @@ end
 
 %imwrite(DMDnumArray,'ExsmallSmiley.png')
 
-% save('50iter100loopSpot.mat', 'XCoords', 'Performance', 'ElapsedTimeVector', 'TargetEstimate', 'hologramStack');
+  save('5iter100loopSmileyNew.mat', 'XCoords', 'Performance', 'ElapsedTimeVector', 'TargetEstimate', 'hologramStack', 'imageStack', 'iterTimings');
