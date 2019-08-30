@@ -1,5 +1,5 @@
 %%% Gerchberg saxton
-function [TargetEstimate,RMSEtargetEst,DMDnum, elapsedIterTime] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage, ImageSize)
+function [ApproxTargetI,RMSEtargetEst,hologram,elapsedIterTime ] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage, ImageSize)
 iteration = 0;
 
 RMSEtargetEst = zeros(1,TotalIterations);
@@ -37,10 +37,10 @@ for index = 1: TotalIterations
     TrimApproxTargetNorm = (trimApproxTarget - mean(trimApproxTarget(:)))./std(trimApproxTarget(:));
     TrimtargetImageNorm = (trimTargetImage - mean(trimTargetImage(:)))./std(trimTargetImage(:));
     
-    trimTargetEstimate = TargetEstimate(1:trim,1:trim); % amplitude hologram image
-    trimTargetEstimateNorm = (trimTargetEstimate - mean(trimTargetEstimate(:)))./std(trimTargetEstimate(:)); %amplitude hologram image normalised
+%     trimTargetEstimate = TargetEstimate(1:trim,1:trim); % amplitude hologram image
+%     trimTargetEstimateNorm = (trimTargetEstimate - mean(trimTargetEstimate(:)))./std(trimTargetEstimate(:)); %amplitude hologram image normalised
  
-   RMSEtargetEst(iteration) = sqrt(mean(((trimTargetEstimateNorm(:) - TrimtargetImageNorm(:)).^2))); %RMSE of amplitude hologram image vs target image
-
+%    RMSEtargetEst(iteration) = sqrt(mean(((trimTargetEstimateNorm(:) - TrimtargetImageNorm(:)).^2))); %RMSE of amplitude hologram image vs target image
+    RMSEtargetEst(iteration) = sqrt(mean(((TrimApproxTargetNorm(:) - TrimtargetImageNorm(:)).^2)));
 end
 end
