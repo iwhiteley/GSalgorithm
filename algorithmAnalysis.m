@@ -1,5 +1,5 @@
 %% data analysis
-load 100iter100loopSpot.mat
+load 100iter100loopLogoNew.mat
 %load timeVectorAllIters.mat
 
 %average RMSE of the final product of the algorithm
@@ -12,8 +12,8 @@ averageTimePerLoop100spot = mean(ElapsedTimeVector);
 SEMtimePerLoop100spot = std(ElapsedTimeVector)/sqrt(length(ElapsedTimeVector));
 ElapsedTimeVector100spot = ElapsedTimeVector;
 
-save('analysis100iter100loopSpot.mat','finalIteration100spot', 'meanFinalIter100spot', 'SEMfinalIter100spot',...
-    'averageTimePerLoop100spot', 'SEMtimePerLoop100spot', 'ElapsedTimeVector100spot')
+% save('analysis100iter100loopLogoNew.mat','finalIteration100spot', 'meanFinalIter100spot', 'SEMfinalIter100spot',...
+%     'averageTimePerLoop100spot', 'SEMtimePerLoop100spot', 'ElapsedTimeVector100spot')
 
 %% combine files
 
