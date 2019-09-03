@@ -1,18 +1,18 @@
-%% data analysis
-load 100iter100loopLogoNew.mat
+%%% data analysis
+load 100iter100loopSpotPhase.mat
 %load timeVectorAllIters.mat
 
 %average RMSE of the final product of the algorithm
-finalIteration100spot = Performance(end, :);
-meanFinalIter100spot = mean(finalIteration100spot);
-SEMfinalIter100spot = std(finalIteration100spot)/sqrt(length(finalIteration100spot));
+finalIteration100SpotPhase = Performance(end, :);
+meanFinalIter100SpotPhase = mean(finalIteration100SpotPhase);
+SEMfinalIter100SpotPhase = std(finalIteration100SpotPhase)/sqrt(length(finalIteration100SpotPhase));
 
 % average time it takes per algorithm iteration
-averageTimePerLoop100spot = mean(ElapsedTimeVector);
-SEMtimePerLoop100spot = std(ElapsedTimeVector)/sqrt(length(ElapsedTimeVector));
-ElapsedTimeVector100spot = ElapsedTimeVector;
+% averageTimePerLoop100spot = mean(ElapsedTimeVector);
+% SEMtimePerLoop100spot = std(ElapsedTimeVector)/sqrt(length(ElapsedTimeVector));
+% ElapsedTimeVector100spot = ElapsedTimeVector;
 
-% save('analysis100iter100loopLogoNew.mat','finalIteration100spot', 'meanFinalIter100spot', 'SEMfinalIter100spot',...
+save('analysis100iter100loopSpotPhase.mat','finalIteration100SpotPhase', 'meanFinalIter100SpotPhase', 'SEMfinalIter100SpotPhase');
 %     'averageTimePerLoop100spot', 'SEMtimePerLoop100spot', 'ElapsedTimeVector100spot')
 
 %% combine files
@@ -24,7 +24,7 @@ ElapsedTimeVector100spot = ElapsedTimeVector;
 
 %% Plotting
 
-% RMSEfinalIteration = boxplot([finalIteration5logo(:), finalIteration10logo(:), finalIteration50logo(:), finalIteration100logo(:)],'Labels', {'5 Iterations','10 Iterations','50 Iterations','100 Iterations'});
+% RMSEfinalIteration = boxplot([finalIteration100LogoPhase(:), finalIteration100mileyPhase(:), finalIteration100SpotPhase(:)]);%, finalIteration100logo(:)],'Labels', {'5 Iterations','10 Iterations','50 Iterations','100 Iterations'});
 % xlabel('Number of Iterations')
 % ylabel('RMSE')
 % title('RMSE of final Spot iteration ')
