@@ -1,17 +1,17 @@
 %%% Calling script
 
 ImageSize = [768, 768];
-raw = 1-(mean(imread('smiley.jpg'),3)./255);
-% raw = 1-(mean(imread('Imperial_Logo.png'),3)./255);
+% raw = 1-(mean(imread('smiley.jpg'),3)./255);
+raw = 1-(mean(imread('Imperial_Logo.png'),3)./255);
 targetImage = targetImageFunc(ImageSize,raw);
 % load('spot96.mat');
 % targetImage = complex(spot);
 
-InputField = complex(ones(ImageSize)); % Set up a uniform electric field with a phase of zero hitting the SLM.
+InputField = complex(ones(ImageSize)); % Set up a uniform electric field with a phase of zero hitting the DMD.
 
 TotalIterations = 5;
 TotalLoops = 100;
-Averages = 100;
+Averages = 1;
 
 MetaRMSE = zeros(TotalLoops,Averages);
 
@@ -28,13 +28,13 @@ for in= 1: Averages
         hologramInputIn = hologramInputSLM(SLM,InputField);
         
         %     [ApproxTargetI,RMSEtargetEst, hologram, elapsedIterTime] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage, ImageSize); %phase analysis
-        [TargetEstimate,RMSEtargetEst, DMDnum] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage, ImageSize);
+        [TargetEstimate,RMSEtargetEst, DMDnum, elapsedIterTime] = GSalgorithm(hologramInputIn,InputField, TotalIterations, targetImage, ImageSize);
         Performance(:,index) = RMSEtargetEst;
         hologramStack(:,:,index) = DMDnum;
         imageStack(:,:,index) = TargetEstimate;
         %     hologramStack(:,:,index) = hologram; %for phase
         %     imageStack(:,:,index) = ApproxTargetI; %for phase
-%         iterTimings(:,index) = elapsedIterTime;
+        iterTimings(:,index) = elapsedIterTime;
         
         trim = size(TargetEstimate)/2;
         trimTargetImage = targetImage(1:trim,1:trim);
@@ -53,13 +53,13 @@ finalAveragedLogoRMSE = MetaRMSE(end, :);
 meanFinalAveragedLogoRMSE = mean(finalAveragedLogoRMSE);
 SEMfinalAveragedLogoRMSE = std(finalAveragedLogoRMSE)/sqrt(length(finalAveragedLogoRMSE));
 
-XCoordinates = (1:TotalLoops)'*ones(1,Averages);
-figure(1);
-scatter(XCoordinates(:),MetaRMSE(:))
-xlabel('Averages')
-ylabel('RMSE')
-title('')
-save('100_100_5averagedSmiley.mat', 'MetaRMSE', 'finalAveragedLogoRMSE','meanFinalAveragedLogoRMSE', 'SEMfinalAveragedLogoRMSE', 'XCoordinates')
+% XCoordinates = (1:TotalLoops)'*ones(1,Averages);
+% figure(1);
+% scatter(XCoordinates(:),MetaRMSE(:))
+% xlabel('Averages')
+% ylabel('RMSE')
+% title('')
+% save('100_100_5averagedSpot.mat', 'MetaRMSE', 'finalAveragedLogoRMSE','meanFinalAveragedLogoRMSE', 'SEMfinalAveragedLogoRMSE', 'XCoordinates')
 
 %% Plot results
 % figure(1);
